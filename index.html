@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dominando "Due Date" e "Deadline" - Para Brasileiros</title>
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos Globais e Tema Netflix */
+        :root {
+            --netflix-red: #E50914;
+            --netflix-dark: #141414;
+            --netflix-light-dark: #222222;
+            --text-color: #E5E5E5;
+            --accent-gray: #A0A0A0;
+            --border-radius: 8px;
+            --padding-base: 1.5rem;
+        }
+
+        body {
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--netflix-dark);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(to bottom, var(--netflix-dark) 0%, var(--netflix-light-dark) 100%);
+        }
+
+        /* Cabeçalho */
+        .header {
+            background-color: var(--netflix-dark);
+            padding: 1.5rem var(--padding-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-bottom: 2px solid var(--netflix-red);
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--netflix-red);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            margin: 0;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-title i {
+            font-size: 0.8em;
+            color: var(--text-color);
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            flex-grow: 1;
+            max-width: 900px;
+            margin: 2rem auto;
+            background-color: var(--netflix-light-dark);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            padding: var(--padding-base) 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--netflix-red);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-text {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* Acordeão (Dropdown List) */
+        .accordion-item {
+            background-color: var(--netflix-dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem var(--padding-base);
+            background-color: var(--netflix-light-dark);
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.3s ease;
+        }
+
+        .accordion-header:hover {
+            background-color: #333333;
+        }
+
+        .accordion-header i {
+            transition: transform 0.3s ease;
+        }
+
+        .accordion-header.active i {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            padding: 0 var(--padding-base);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+            background-color: var(--netflix-dark);
+        }
+
+        .accordion-content.active {
+            max-height: 500px; /* Ajuste conforme necessário para o conteúdo */
+            padding: var(--padding-base) var(--padding-base);
+        }
+
+        .accordion-content p {
+            margin-bottom: 1em;
+        }
+
+        .accordion-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .accordion-content li {
+            margin-bottom: 0.5em;
+            padding-left: 1.5em;
+            position: relative;
+        }
+
+        .accordion-content li::before {
+            content: '•';
+            color: var(--netflix-red);
+            position: absolute;
+            left: 0;
+        }
+
+        /* Botões de Áudio (mantidos para consistência, mas não usados para "Looking Forward") */
+        .audio-player {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #2a2a2a;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            justify-content: center;
+        }
+
+        .audio-button {
+            background-color: var(--netflix-red);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .audio-button:hover {
+            background-color: #CC0812;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .audio-button i {
+            font-size: 1.2em;
+        }
+
+        /* Rodapé */
+        .footer {
+            text-align: center;
+            padding: 1.5rem var(--padding-base);
+            background-color: var(--netflix-dark);
+            color: var(--accent-gray);
+            font-size: 0.9rem;
+            margin-top: auto;
+            border-top: 2px solid var(--netflix-red);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 1.8rem;
+                text-align: center;
+                display: block;
+            }
+            .header-title i {
+                display: block;
+                margin-bottom: 5px;
+            }
+            .main-content {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .section-text {
+                font-size: 1rem;
+            }
+            .accordion-header {
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            .accordion-content {
+                padding: 0.8rem 1rem;
+            }
+            .audio-player {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .audio-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Language buttons for introduction */
+        .intro-language-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-lang-button {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            background-color: #444;
+            color: var(--text-color);
+        }
+
+        .intro-lang-button.active {
+            background-color: var(--netflix-red);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+        }
+
+        .intro-lang-button:hover:not(.active) {
+            background-color: #555;
+            transform: translateY(-1px);
+        }
+
+        .intro-text-content {
+            transition: opacity 0.5s ease-in-out;
+        }
+        .intro-text-content.hidden {
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        /* Styling for (Português/English) format */
+        .lang-pair {
+            display: block; /* Ensures each pair is on a new line */
+            margin-bottom: 0.5em; /* Space between pairs */
+            font-size: 0.95em; /* Slightly smaller font for examples */
+        }
+        .lang-pair strong {
+            color: var(--netflix-red); /* Highlight the expression */
+        }
+        .lang-pair em {
+            font-style: normal; /* Remove italic from original <em> */
+            color: var(--accent-gray); /* Distinguish translation */
+        }
+
+        /* Call to Action Box */
+        .call-to-action-box {
+            background-color: var(--netflix-red);
+            color: white;
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            text-align: center;
+            margin-top: 3rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .call-to-action-box h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+        }
+
+        .call-to-action-box p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .call-to-action-button {
+            background-color: white;
+            color: var(--netflix-red);
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .call-to-action-button:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Translation Practice Section */
+        .translation-exercise {
+            background-color: #2a2a2a;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            margin-top: 15px; /* Added margin-top for spacing */
+            margin-bottom: 15px;
+            padding: 1.5rem;
+        }
+
+        .translation-exercise p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .translation-exercise input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 0.8rem 10px;
+            margin-bottom: 1rem;
+            border: 1px solid #555;
+            border-radius: 5px;
+            background-color: #333;
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .translation-exercise input[type="text"]:focus {
+            outline: none;
+            border-color: var(--netflix-red);
+            box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.5);
+        }
+
+        .translation-exercise .show-answer-btn {
+            background-color: #007bff; /* A nice blue for action */
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .translation-exercise .show-answer-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .translation-exercise .correct-translation {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background-color: #3a3a3a;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: #76FF03; /* Green for correct answer */
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-title"><i class="fas fa-calendar-alt"></i> Due Date & Deadline: Um Guia para Brasileiros (A Guide for Brazilians)</h1>
+    </header>
+
+    <main class="main-content">
+        <section id="introduction">
+            <h2 class="section-title">Dominando Prazos: "Due Date" e "Deadline" (Mastering Deadlines: "Due Date" and "Deadline")</h2>
+
+            <div class="intro-language-buttons">
+                <button id="intro-lang-pt-btn" class="intro-lang-button active">Português</button>
+                <button id="intro-lang-en-btn" class="intro-lang-button">English</button>
+            </div>
+
+            <div id="intro-pt" class="intro-text-content">
+                <p class="section-text">No ambiente profissional e acadêmico, a gestão de tempo e o cumprimento de prazos são cruciais. (In professional and academic environments, time management and meeting deadlines are crucial.) As expressões "due date" e "deadline" são frequentemente usadas, mas carregam nuances distintas que são importantes de entender para uma comunicação eficaz. (The expressions "due date" and "deadline" are frequently used, but carry distinct nuances that are important to understand for effective communication.)</p>
+                <p class="section-text">Embora ambas se refiram a datas limites, o contexto e a implicação de cada uma podem variar. (Although both refer to cutoff dates, the context and implication of each can vary.) Dominar o uso correto de "due date" e "deadline" não só melhora sua precisão na comunicação, mas também demonstra profissionalismo e atenção aos detalhes. (Mastering the correct use of "due date" and "deadline" not only improves your communication accuracy but also demonstrates professionalism and attention to detail.)</p>
+                <p class="section-text">Vamos explorar o significado, os usos e as diferenças entre "due date" e "deadline" para que você possa empregá-las com confiança. (Let's explore the meaning, uses, and differences between "due date" and "deadline" so you can employ them with confidence.)</p>
+            </div>
+
+            <div id="intro-en" class="intro-text-content hidden">
+                <p class="section-text">In professional and academic environments, time management and meeting deadlines are crucial. The expressions "due date" and "deadline" are frequently used, but carry distinct nuances that are important to understand for effective communication.</p>
+                <p class="section-text">Although both refer to cutoff dates, the context and implication of each can vary. Mastering the correct use of "due date" and "deadline" not only improves your communication accuracy but also demonstrates professionalism and attention to detail.</p>
+                <p class="section-text">Let's explore the meaning, uses, and differences between "due date" and "deadline" so you can employ them with confidence.</p>
+            </div>
+        </section>
+
+        <section id="due-date-section">
+            <h2 class="section-title">Due Date: Data de Vencimento/Entrega (Due Date: Expiration/Delivery Date)</h2>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Significado e Uso (Meaning and Usage) <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <p>**Due date** refere-se à **data em que algo é esperado ou exigido, frequentemente em contextos contratuais ou de pagamentos**. ( **Due date** refers to the **date something is expected or required, often in contractual or payment contexts**.) É a data em que um pagamento, uma fatura, um contrato assinado ou um documento com vencimento deve ser entregue ou concluído. (It is the date by which a payment, an invoice, a signed contract, or a due document must be delivered or completed.) Embora seja uma data limite, geralmente tem uma conotação um pouco mais flexível ou menos crítica que "deadline" para entregas de projetos, por exemplo. (Although it is a cutoff date, it generally has a slightly more flexible or less critical connotation than "deadline" for project deliverables, for example.)</p>
+                    <ul>
+                        <li><span class="lang-pair">"The **due date** for the invoice is next Tuesday." <br> <em>(A **data de vencimento** da fatura é na próxima terça-feira.)</em></span></li>
+                        <li><span class="lang-pair">"What's the **due date** for signing the agreement?" <br> <em>(Qual é a **data de vencimento** para assinar o acordo?)</em></span></li>
+                        <li><span class="lang-pair">"The quarterly taxes have a **due date** of April 15th." <br> <em>(Os impostos trimestrais têm **data de vencimento** em 15 de abril.)</em></span></li>
+                        <li><span class="lang-pair">"My library books have a **due date** of tomorrow." <br> <em>(Meus livros da biblioteca têm **data de devolução** para amanhã.)</em></span></li>
+                        <li><span class="lang-pair">"The project's first milestone has a **due date** of December 15th." <br> <em>(O primeiro marco do projeto tem **data de entrega** para 15 de dezembro.)</em></span></li>
+                    </ul>
+                    <p><strong>Substitua: "Prazo de entrega" (informal), "Data para entregar"</strong> (Replace: "Delivery deadline" (informal), "Date to deliver")<br>
+                    "Due date" é mais formal e preciso para indicar a data esperada de entrega ou vencimento, especialmente em contextos financeiros, legais ou de marcos de projeto. ( "Due date" is more formal and precise for indicating the expected delivery or due date, especially in financial, legal, or project milestone contexts.)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="deadline-section">
+            <h2 class="section-title">Deadline: Prazo Final/Fatal (Deadline: Final/Strict Deadline)</h2>
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Significado e Uso (Meaning and Usage) <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <p>**Deadline** refere-se a um **prazo final e inegociável**, após o qual consequências negativas (como penalidades, perda de oportunidade ou falha total do projeto) podem ocorrer. ( **Deadline** refers to a **final and non-negotiable deadline**, after which negative consequences (such as penalties, loss of opportunity, or total project failure) may occur.) É comumente usado para a **submissão de relatórios, propostas, projetos completos** e outras entregas críticas onde a pontualidade é absoluta. (It is commonly used for the **submission of reports, proposals, completed projects** and other critical deliverables where punctuality is absolute.) A palavra "dead" (morto) em "deadline" enfatiza a rigidez e a criticidade desse prazo. (The word "dead" in "deadline" emphasizes the rigidity and criticality of this deadline.)</p>
+                    <ul>
+                        <li><span class="lang-pair">"The **deadline** for submitting the final report is Friday at 5 PM." <br> <em>(O **prazo final** para enviar o relatório final é sexta-feira às 17h.)</em></span></li>
+                        <li><span class="lang-pair">"We must meet the **deadline** for the proposal, or we'll lose the contract." <br> <em>(Precisamos cumprir o **prazo final** da proposta, ou perderemos o contrato.)</em></span></li>
+                        <li><span class="lang-pair">"The submission **deadline** for the grant application is next month." <br> <em>(O **prazo final** para envio da solicitação de subsídio é no próximo mês.)</em></span></li>
+                        <li><span class="lang-pair">"Missing the **deadline** for the product launch could have serious implications for market share." <br> <em>(Perder o **prazo fatal** para o lançamento do produto pode ter sérias implicações para a fatia de mercado.)</em></span></li>
+                        <li><span class="lang-pair">"The editor set a strict **deadline** for the article to be published in the next issue." <br> <em>(O editor estabeleceu um **prazo final** rigoroso para o artigo ser publicado na próxima edição.)</em></span></li>
+                    </ul>
+                    <p><strong>Substitua: "Prazo", "Data limite" (genérico)</strong> (Replace: "Deadline", "Cutoff date" (generic))<br>
+                    "Deadline" é a palavra ideal para enfatizar a urgência e a importância crítica de um prazo, onde não há margem para atrasos e o não cumprimento tem consequências diretas. ( "Deadline" is the ideal word to emphasize the urgency and critical importance of a deadline, where there is no room for delays and non-compliance has direct consequences.)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="walkthrough-expressions">
+            <h2 class="section-title">Walkthrough: Entendendo "Due Date" e "Deadline" (Walkthrough: Understanding "Due Date" and "Deadline")</h2>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Due Date: Por que, Como e Quando Usar (Due Date: Why, How, and When to Use) <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h3>Por que usar "Due Date"? (Why use "Due Date"?)</h3>
+                    <p>Use "due date" para indicar uma data de entrega ou vencimento de forma clara e padrão, especialmente quando se trata de obrigações financeiras, contratuais ou marcos de projeto que, embora importantes, podem ter alguma flexibilidade ou um processo de acompanhamento para atrasos. (Use "due date" to clearly and standardly indicate a delivery or due date, especially when it comes to financial or contractual obligations or project milestones that, while important, may have some flexibility or a follow-up process for delays.)</p>
+                    <h3>Como usar "Due Date"? (How to use "Due Date"?)</h3>
+                    <ul>
+                        <li><span class="lang-pair">Geralmente como substantivo: "The due date is tomorrow." (A data de entrega é amanhã.)</span></li>
+                        <li><span class="lang-pair">Pode ser usado com "for": "The due date for the payment." (A data de vencimento para o pagamento.)</span></li>
+                    </ul>
+                    <h3>Quando usar "Due Date"? (When to use "Due Date"?)</h3>
+                    <ul>
+                        <li><span class="lang-pair">Para pagamentos de contas, faturas, impostos ou empréstimos. (For bill payments, invoices, taxes, or loans.)</span></li>
+                        <li><span class="lang-pair">Para assinaturas de contratos ou devolução de documentos. (For contract signings or document returns.)</span></li>
+                        <li><span class="lang-pair">Em agendamentos de tarefas ou marcos de projeto que contribuem para um objetivo maior, mas não são o ponto final absoluto. (In task schedules or project milestones that contribute to a larger goal, but are not the absolute final point.)</span></li>
+                        <li><span class="lang-pair">Ao falar sobre a data prevista de nascimento de um bebê. (When talking about a baby's estimated due date.)</span></li>
+                    </ul>
+
+                    <div class="translation-exercise">
+                        <p>1. A data de vencimento da fatura é 10 de agosto. (The invoice due date is August 10th.)</p>
+                        <input type="text" placeholder="Sua tradução aqui... (Your translation here...)">
+                        <button class="show-answer-btn">Mostrar Resposta (Show Answer)</button>
+                        <div class="correct-translation">
+                            Resposta Correta: "The invoice due date is August 10th."
+                        </div>
+                    </div>
+                    <div class="translation-exercise">
+                        <p>2. Qual é a data de entrega para o próximo relatório de progresso? (What is the due date for the next progress report?)</p>
+                        <input type="text" placeholder="Sua tradução aqui... (Your translation here...)">
+                        <button class="show-answer-btn">Mostrar Resposta (Show Answer)</button>
+                        <div class="correct-translation">
+                            Resposta Correta: "What is the due date for the next progress report?"
+                        </div>
+                    </div>
+                    <div class="translation-exercise">
+                        <p>3. A data de entrega do projeto foi adiada para o final do mês. (The project's due date was postponed to the end of the month.)</p>
+                        <input type="text" placeholder="Sua tradução aqui... (Your translation here...)">
+                        <button class="show-answer-btn">Mostrar Resposta (Show Answer)</button>
+                        <div class="correct-translation">
+                            Resposta Correta: "The project's due date was postponed to the end of the month."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    Deadline: Por que, Como e Quando Usar (Deadline: Why, How, and When to Use) <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="accordion-content">
+                    <h3>Por que usar "Deadline"? (Why use "Deadline"?)</h3>
+                    <p>Use "deadline" quando o prazo é estrito e o não cumprimento pode acarretar consequências significativas e diretas, como perda de negócio, penalidades financeiras severas, desqualificação de uma proposta, ou falha total de um projeto. (Use "deadline" when the deadline is strict and non-compliance can lead to significant and direct consequences, such as loss of business, severe financial penalties, disqualification of a proposal, or total project failure.) É a palavra para prazos que são absolutos e críticos. (It is the word for deadlines that are absolute and critical.)</p>
+                    <h3>Como usar "Deadline"? (How to use "Deadline"?)</h3>
+                    <ul>
+                        <li><span class="lang-pair">Geralmente como substantivo: "The deadline is approaching." (O prazo final está se aproximando.)</span></li>
+                        <li><span class="lang-pair">Pode ser usado com "for": "The deadline for applications." (O prazo final para as inscrições.)</span></li>
+                        <li><span class="lang-pair">Com verbos como "meet the deadline" (cumprir o prazo), "miss the deadline" (perder o prazo). (With verbs like "meet the deadline" (to meet the deadline), "miss the deadline" (to miss the deadline).)</span></li>
+                    </ul>
+                    <h3>Quando usar "Deadline"? (When to use "Deadline"?)</h3>
+                    <ul>
+                        <li><span class="lang-pair">Para submissão de propostas de projetos, artigos científicos, ou candidaturas. (For submitting project proposals, scientific articles, or applications.)</span></li>
+                        <li><span class="lang-pair">Em marcos críticos de projetos que afetam a linha do tempo geral ou a entrega final. (In critical project milestones that affect the overall timeline or final delivery.)</span></li>
+                        <li><span class="lang-pair">Para prazos de publicação em jornalismo ou editoração. (For publication deadlines in journalism or publishing.)</span></li>
+                        <li><span class="lang-pair">Em qualquer situação onde o não cumprimento do prazo tem um impacto imediato e negativo. (In any situation where missing the deadline has an immediate and negative impact.)</span></li>
+                    </ul>
+
+                    <div class="translation-exercise">
+                        <p>1. O prazo final para o projeto é amanhã, e não podemos perdê-lo. (The deadline for the project is tomorrow, and we cannot miss it.)</p>
+                        <input type="text" placeholder="Sua tradução aqui... (Your translation here...)">
+                        <button class="show-answer-btn">Mostrar Resposta (Show Answer)</button>
+                        <div class="correct-translation">
+                            Resposta Correta: "The deadline for the project is tomorrow, and we cannot miss it."
+                        </div>
+                    </div>
+                    <div class="translation-exercise">
+                        <p>2. Precisamos cumprir o prazo final para garantir o financiamento. (We need to meet the deadline to secure the funding.)</p>
+                        <input type="text" placeholder="Sua tradução aqui... (Your translation here...)">
+                        <button class="show-answer-btn">Mostrar Resposta (Show Answer)</button>
+                        <div class="correct-translation">
+                            Resposta Correta: "We need to meet the deadline to secure the funding."
+                        </div>
+                    </div>
+                    <div class="translation-exercise">
+                        <p>3. A equipe trabalhou duro para cumprir o prazo final apertado. (The team worked hard to meet the tight deadline.)</p>
+                        <input type="text" placeholder="Sua tradução aqui... (Your translation here...)">
+                        <button class="show-answer-btn">Mostrar Resposta (Show Answer)</button>
+                        <div class="correct-translation">
+                            Resposta Correta: "The team worked hard to meet the tight deadline."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="additional-translation-practice">
+            <h2 class="section-title">Prática de Tradução Adicional (Additional Translation Practice)</h2>
+            <p class="section-text" style="text-align: center;">Traduza as frases abaixo para o inglês. Use o botão para ver a resposta sugerida pela IA.</p>
+
+            <div class="translation-exercise">
+                <p>1. A data de vencimento do aluguel é o quinto dia do mês. (The rent's due date is the fifth day of the month.)</p>
+                <input type="text" placeholder="Sua tradução aqui...">
+                <button class="show-answer-btn">Mostrar Resposta (Show AI Answer)</button>
+                <div class="correct-translation">
+                    Resposta Correta: "The rent's due date is the fifth day of the month."
+                </div>
+            </div>
+
+            <div class="translation-exercise">
+                <p>2. O prazo final para a inscrição no evento é na próxima semana. (The deadline for event registration is next week.)</p>
+                <input type="text" placeholder="Sua tradução aqui...">
+                <button class="show-answer-btn">Mostrar Resposta (Show AI Answer)</button>
+                <div class="correct-translation">
+                    Resposta Correta: "The deadline for event registration is next week."
+                </div>
+            </div>
+
+            <div class="translation-exercise">
+                <p>3. Por favor, confirme a data de entrega para os materiais. (Please confirm the due date for the materials.)</p>
+                <input type="text" placeholder="Sua tradução aqui...">
+                <button class="show-answer-btn">Mostrar Resposta (Show AI Answer)</button>
+                <div class="correct-translation">
+                    Resposta Correta: "Please confirm the due date for the materials."
+                </div>
+            </div>
+
+            <div class="translation-exercise">
+                <p>4. Se perdermos o prazo final, o projeto será cancelado. (If we miss the deadline, the project will be canceled.)</p>
+                <input type="text" placeholder="Sua tradução aqui...">
+                <button class="show-answer-btn">Mostrar Resposta (Show AI Answer)</button>
+                <div class="correct-translation">
+                    Resposta Correta: "If we miss the deadline, the project will be canceled."
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion">
+            <h2 class="section-title">Conclusão (Conclusion)</h2>
+            <p class="section-text">Compreender a diferença entre "due date" e "deadline" é fundamental para uma comunicação eficaz e para a gestão de projetos em inglês. (Understanding the difference between "due date" and "deadline" is fundamental for effective communication and project management in English.) Enquanto "due date" indica uma data esperada, "deadline" impõe um limite rigoroso com consequências. (While "due date" indicates an expected date, "deadline" imposes a strict limit with consequences.)</p>
+            <p class="section-text">Ao usar esses termos com precisão, você demonstra profissionalismo e evita mal-entendidos. (By using these terms accurately, you demonstrate professionalism and avoid misunderstandings.) Continue praticando para masterizar esses conceitos essenciais! (Keep practicing to master these essential concepts!)</p>
+        </section>
+
+        <section id="call-to-action">
+            <div class="call-to-action-box">
+                <h3>Gerencie Seus Prazos com Confiança! (Manage Your Deadlines with Confidence!)</h3>
+                <p>Comece a aplicar "due date" e "deadline" corretamente em sua comunicação diária! (Start applying "due date" and "deadline" correctly in your daily communication!)</p>
+                <button class="call-to-action-button" onclick="alert('Excelente! Sua comunicação em inglês está evoluindo!');">
+                    Começar a Usar Agora! (Start Using Now!)
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Daby © 2025 ✨🚀</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lógica para os acordeões (dropdowns)
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling; // Pega o conteúdo do acordeão
+                    const icon = header.querySelector('i'); // Pega o ícone
+
+                    // Fecha outros acordeões abertos (opcional, mas bom para UX)
+                    accordionHeaders.forEach(otherHeader => {
+                        if (otherHeader !== header && otherHeader.classList.contains('active')) {
+                            otherHeader.classList.remove('active');
+                            otherHeader.nextElementSibling.classList.remove('active');
+                            otherHeader.querySelector('i').style.transform = 'rotate(0deg)';
+                        }
+                    });
+
+                    // Alterna a classe 'active' no cabeçalho e no conteúdo
+                    header.classList.toggle('active');
+                    content.classList.toggle('active');
+
+                    // Gira o ícone de chevron
+                    if (header.classList.contains('active')) {
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+
+            // Lógica para os botões de áudio (mantidos, mas não há áudio específico para estas palavras)
+            const audioButtons = document.querySelectorAll('.audio-button');
+            const synth = window.speechSynthesis;
+
+            audioButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const wordToSpeak = button.dataset.audioWord;
+                    if (wordToSpeak && synth) {
+                        const utterance = new SpeechSynthesisUtterance(wordToSpeak);
+                        utterance.lang = 'en-US'; // Define o idioma para inglês americano para pronúncia correta
+                        synth.speak(utterance);
+                    } else {
+                        console.error('Web Speech API not supported or word not defined.');
+                    }
+                });
+            });
+
+            // Lógica para alternar a introdução entre português e inglês
+            const introLangPtBtn = document.getElementById('intro-lang-pt-btn');
+            const introLangEnBtn = document.getElementById('intro-lang-en-btn');
+            const introPtContent = document.getElementById('intro-pt');
+            const introEnContent = document.getElementById('intro-en');
+
+            function showIntroLanguage(lang) {
+                if (lang === 'pt') {
+                    introPtContent.classList.remove('hidden');
+                    introEnContent.classList.add('hidden');
+                    introLangPtBtn.classList.add('active');
+                    introLangEnBtn.classList.remove('active');
+                } else if (lang === 'en') {
+                    introPtContent.classList.add('hidden');
+                    introEnContent.classList.remove('hidden');
+                    introLangPtBtn.classList.remove('active');
+                    introLangEnBtn.classList.add('active');
+                }
+            }
+
+            introLangPtBtn.addEventListener('click', () => showIntroLanguage('pt'));
+            introLangEnBtn.addEventListener('click', () => showIntroLanguage('en'));
+
+            // Lógica para os botões "Mostrar Resposta" na seção de prática de tradução
+            const showAnswerButtons = document.querySelectorAll('.translation-exercise .show-answer-btn');
+
+            showAnswerButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const parentExercise = button.closest('.translation-exercise');
+                    const correctAnswerDiv = parentExercise.querySelector('.correct-translation');
+                    
+                    if (correctAnswerDiv) {
+                        correctAnswerDiv.style.display = 'block'; // Mostra a div da resposta
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
